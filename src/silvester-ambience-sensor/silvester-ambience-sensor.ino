@@ -41,5 +41,9 @@ void loop() {
 
   Serial.println();
 
-  delay(100);
+  if(DEEP_SLEEP) {
+    ESP.deepSleep(INTERVAL_SECONDS * 1000000);
+  } else {
+    delay(INTERVAL_SECONDS * 1000);
+  }
 }

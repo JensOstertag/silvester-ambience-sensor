@@ -1,5 +1,7 @@
 // General
 #define BAUD_RATE 115200
+#define INTERVAL_SECONDS 1
+#define DEEP_SLEEP true
 
 // LoRa
 
