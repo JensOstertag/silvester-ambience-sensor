@@ -25,10 +25,12 @@ void os_getDevKey(u1_t* buf) {
   u1_t appKey[16] = TTN_APP_KEY;
   memcpy_P(buf, appKey, 16);
 }
+int lora_complete = 0;
 void onEvent(ev_t event) {
   switch(event) {
     case EV_SCAN_TIMEOUT:
       Serial.println("EV_SCAN_TIMEOUT");
+      lora_complete = -1;
       break;
     case EV_BEACON_FOUND:
       Serial.println("EV_BEACON_FOUND");
@@ -51,9 +53,11 @@ void onEvent(ev_t event) {
       break;
     case EV_JOIN_FAILED:
       Serial.println("EV_JOIN_FAILED");
+      lora_complete = -1;
       break;
     case EV_REJOIN_FAILED:
       Serial.println("EV_REJOIN_FAILED");
+      lora_complete = -1;
       break;
     case EV_TXCOMPLETE:
       Serial.println("EV_TXCOMPLETE (Includes waiting for RX windows)");
@@ -67,6 +71,8 @@ void onEvent(ev_t event) {
         Serial.print(LMIC.dataLen);
         Serial.println(" bytes of payload");
       }
+
+      lora_complete = 1;
       break;
     case EV_LOST_TSYNC:
       Serial.println("EV_LOST_TSYNC");
@@ -76,9 +82,11 @@ void onEvent(ev_t event) {
       break;
     case EV_RXCOMPLETE:
       Serial.println("EV_RXCOMPLETE");
+      lora_complete = 1;
       break;
     case EV_LINK_DEAD:
       Serial.println("EV_LINK_DEAD");
+      lora_complete = -1;
       break;
     case EV_LINK_ALIVE:
       Serial.println("EV_LINK_ALIVE");
@@ -91,11 +99,13 @@ void onEvent(ev_t event) {
       break;
     case EV_TXCANCELED:
       Serial.println("EV_TXCANCELED");
+      lora_complete = -1;
       break;
     case EV_RXSTART:
       break;
     case EV_JOIN_TXCOMPLETE:
       Serial.println("EV_JOIN_TXCOMPLETE: No JoinAccept");
+      lora_complete = -1;
       break;
 
     default:
@@ -103,6 +113,23 @@ void onEvent(ev_t event) {
       Serial.println((unsigned) event);
       break;
   }
+}
+bool sendLoraPayload(byte* payload, size_t size) {
+  if(LMIC.opmode & OP_TXRXPEND) {
+    Serial.println("OP_TXRXPEND, not sending");
+    return false;
+  }
+
+  lora_complete = 0;
+  LMIC_setTxData2(1, payload, size, 0);
+  while(lora_complete == 0) {
+    Serial.print(" ");
+    os_runloop_once();
+  }
+
+  Serial.println();
+
+  return lora_complete == 1;
 }
 
 // Light sensor (BH1750) - https://github.com/claws/BH1750
