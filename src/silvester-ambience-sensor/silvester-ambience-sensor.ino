@@ -138,17 +138,16 @@ bool sendLoraPayload(byte* payload, size_t size) {
 BH1750 lightSensor(LIGHTSENSOR_I2C_ADDR);
 
 // Sound sensor (Generic microphone module)
-// TODO
+float mapSoundLevel(float sound) {
+  float d = (SOUNDSENSOR_DB_MAX - SOUNDSENSOR_DB_MIN) / (SOUNDSENSOR_MEASUREMENT_MAX - SOUNDSENSOR_MEASUREMENT_MIN);
+  float d0 = SOUNDSENSOR_DB_MIN - d * SOUNDSENSOR_MEASUREMENT_MIN;
+  return d0 + sound * d;
+}
 
 void setup() {
   Serial.begin(BAUD_RATE);
 
   // LoRa setup
-  pinMode(LORA_PIN_DIO0, FUNCTION_3);
-  pinMode(LORA_PIN_DIO1, FUNCTION_3);
-  pinMode(LORA_PIN_DIO0, OUTPUT);
-  pinMode(LORA_PIN_DIO1, OUTPUT);
-
   os_init();
   LMIC_reset();
   LMIC_setClockError(MAX_CLOCK_ERROR * LORA_CLOCK_ERROR);
@@ -160,7 +159,7 @@ void setup() {
   }
 
   // Sound sensor setup
-  // TODO
+  // Nothing to set up
 }
 
 void loop() {
@@ -171,8 +170,21 @@ void loop() {
   Serial.print(",");
 
   // Sound sensor measurement
-  // TODO
   float sound = 0;
+  int soundMin = 1024;
+  int soundMax = 0;
+  for(int i = 0; i < 512; i++) {
+    int soundMeasurement = analogRead(SOUNDSENSOR_PIN);
+    if(soundMeasurement < soundMin) {
+      soundMin = soundMeasurement;
+    }
+
+    if(soundMeasurement > soundMax) {
+      soundMax = soundMeasurement;
+    }
+  }
+  sound = soundMax - soundMin;
+  sound = mapSoundLevel(sound);
   Serial.print("sound:");
   Serial.print(sound);
 
