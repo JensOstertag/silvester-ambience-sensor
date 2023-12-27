@@ -1,0 +1,26 @@
+// General
+#define BAUD_RATE 9600
+#define INTERVAL_SECONDS 30
+#define DEEP_SLEEP false
+
+// LoRa
+#define LORA_PIN_CS 15
+#define LORA_PIN_DIO0 3
+#define LORA_PIN_DIO1 16
+#define LORA_CLOCK_ERROR .05
+
+// TTN
+#define TTN_APP_EUI {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
+#define TTN_DEV_EUI {0x00, 0x00, 0x00, 0x00, 0x00, 0xD5, 0xB3, 0x70}
+#define TTN_APP_KEY {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
+
+// Light sensor
+#define LIGHTSENSOR_I2C_ADDR 0x23
+#define LIGHTSENSOR_MODE BH1750::CONTINUOUS_HIGH_RES_MODE
+
+// Sound sensor
+#define SOUNDSENSOR_PIN A0
+#define SOUNDSENSOR_MEASUREMENT_MIN 2
+#define SOUNDSENSOR_DB_MIN 20
+#define SOUNDSENSOR_MEASUREMENT_MAX 15
+#define SOUNDSENSOR_DB_MAX 60
