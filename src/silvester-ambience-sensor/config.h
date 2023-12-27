@@ -1,12 +1,12 @@
 // General
-#define BAUD_RATE 115200
-#define INTERVAL_SECONDS 1
-#define DEEP_SLEEP true
+#define BAUD_RATE 9600
+#define INTERVAL_SECONDS 30
+#define DEEP_SLEEP false
 
 // LoRa
 #define LORA_PIN_CS 15
-#define LORA_PIN_DIO0 5
-#define LORA_PIN_DIO1 4
+#define LORA_PIN_DIO0 1
+#define LORA_PIN_DIO1 3
 #define LORA_CLOCK_ERROR .05
 
 // TTN

@@ -144,6 +144,11 @@ void setup() {
   Serial.begin(BAUD_RATE);
 
   // LoRa setup
+  pinMode(LORA_PIN_DIO0, FUNCTION_3);
+  pinMode(LORA_PIN_DIO1, FUNCTION_3);
+  pinMode(LORA_PIN_DIO0, OUTPUT);
+  pinMode(LORA_PIN_DIO1, OUTPUT);
+
   os_init();
   LMIC_reset();
   LMIC_setClockError(MAX_CLOCK_ERROR * LORA_CLOCK_ERROR);
@@ -163,11 +168,33 @@ void loop() {
   float light = lightSensor.readLightLevel();
   Serial.print("light:");
   Serial.print(light);
+  Serial.print(",");
 
   // Sound sensor measurement
   // TODO
+  float sound = 0;
+  Serial.print("sound:");
+  Serial.print(sound);
 
   Serial.println();
+
+  byte payload[8];
+
+  byte* payloadLight = (byte*) &light;
+  byte* payloadSound = (byte*) &sound;
+
+  for(int i = 0; i < sizeof(payloadLight); i++) {
+    payload[i] = payloadLight[i];
+  }
+  for(int i = 0; i < sizeof(payloadSound); i++) {
+    payload[sizeof(payloadLight) + i] = payloadSound[i];
+  }
+
+  if(sendLoraPayload(payload, sizeof(payload))) {
+    Serial.println("Payload sent");
+  } else {
+    Serial.println("Error whilst sending payload");
+  }
 
   if(DEEP_SLEEP) {
     ESP.deepSleep(INTERVAL_SECONDS * 1000000);
