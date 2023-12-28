@@ -208,9 +208,5 @@ void loop() {
     Serial.println("Error whilst sending payload");
   }
 
-  if(DEEP_SLEEP) {
-    ESP.deepSleep(INTERVAL_SECONDS * 1000000);
-  } else {
-    delay(INTERVAL_SECONDS * 1000);
-  }
+  delay(INTERVAL_SECONDS * 1000);
 }

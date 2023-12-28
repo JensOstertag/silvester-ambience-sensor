@@ -1,7 +1,6 @@
 // General
 #define BAUD_RATE 9600
 #define INTERVAL_SECONDS 30
-#define DEEP_SLEEP false
 
 // LoRa
 #define LORA_PIN_CS 15
