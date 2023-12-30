@@ -27,7 +27,8 @@ The sensors main component is an ESP8266 microcontroller, specifically a WeMos D
 For the sensors, a BH1750 light sensor, connected via I2C, and a KY-037 microphone module, connected to an analog input of the ESP8266, are used. A better alternative to the KY-037 would be a MAX4466 microphone module, as it comes with an adjustable gain.
 
 ### Power
-The system is powered by the WeMos' Micro-USB port, which is connected to a 5V power supply. It was desired to power it from a battery, for which the ESP8266 has a quite efficient power saving mode. For that, the D0 pin has to be connected to the RST pin. However, D0 was already used to connect the LoRa module, thus the power saving mode could not be used.
+The device is powered by the WeMos' Micro-USB port, which is connected to a 5V power supply. It was desired to power it from a battery, for which the ESP8266 has a quite efficient power saving mode. For that, the D0 pin has to be connected to the RST pin. However, D0 was already used to connect the LoRa module, thus the power saving mode could not be used.
+Theoretically, the device uses low enough power that it can also be powered by a modern-sized powerbank for up to a few days without the powerbank needing to be recharged.
 
 ## Data
 The data will be measured on New Year's Eve 2023/24.
@@ -42,4 +43,4 @@ The following tools and libraries are used:
 - **ThingSpeak** - Website: [thingspeak.com](https://thingspeak.com/), GitHub: [iobridge/thingspeak](https://github.com/iobridge/thingspeak)
 
 ## License
-TODO
+The software of this project (located within the [`/src` directory](./src)) is licensed under the [MIT license](./LICENSE-MIT).
