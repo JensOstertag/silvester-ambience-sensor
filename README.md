@@ -30,6 +30,8 @@ For the sensors, a BH1750 light sensor, connected via I2C, and a KY-037 micropho
 The device is powered by the WeMos' Micro-USB port, which is connected to a 5V power supply. It was desired to power it from a battery, for which the ESP8266 has a quite efficient power saving mode. For that, the D0 pin has to be connected to the RST pin. However, D0 was already used to connect the LoRa module, thus the power saving mode could not be used.
 Theoretically, the device uses low enough power that it can also be powered by a modern-sized powerbank for up to a few days without the powerbank needing to be recharged.
 
+Specific power values are measured, they reach approximately 80mA when the device is starting, 20mA when sending and 10mA when idling.
+
 ## Data
 The data will be measured on New Year's Eve 2023/24.
 
