@@ -79,3 +79,4 @@ The following tools and libraries are used:
 
 ## License
 The software of this project (located within the [`/src` directory](./src)) is licensed under the [MIT license](./LICENSE-MIT).
+The data that was collected with this project and located within the [`/data` directory](./data) is licensed under the [CC0 1.0 Universal license](./LICENSE-CC0).
