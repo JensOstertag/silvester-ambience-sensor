@@ -17,7 +17,7 @@ Attempt to measure impact of pyrotechnics on light and sound levels during New Y
 ## Introduction
 During New Year's Eve, the air is polluted by - undoubtedly beautiful - fireworks, and other forms of pyrotechnics, and measurements show that it takes several hours or even days until the air quality reaches the same level as before. 
 Another problem is the light and sound pollution, which is stressful specially for animals, but also for elderly people, children, or other people with special needs.
-This project is an attempt to measure the impact of pyrotechnics on light and sound levels during New Year's Eve, and to raise awareness about the problem.
+This project is an attempt to measure the impact of pyrotechnics on light and sound levels during New Year's Eve, and aims to raise awareness about the problem.
 
 ## Functionality
 The sensor measures light and sound levels periodically, with an interval of roughly 30 seconds. The data is then sent to TTN (The Things Network) via LoRa with the LoRaWAN protocol. From there, it is sent to ThingSpeak, where it is stored and visualized.
@@ -33,7 +33,40 @@ Theoretically, the device uses low enough power that it can also be powered by a
 Specific power values are measured, they reach approximately 80mA when the device is starting, 20mA when sending and 10mA when idling.
 
 ## Data
-The data will be measured on New Year's Eve 2023/24.
+The measured data is saved in the [`/data` directory](./data). The CSV files are formatted as follows:
+| date | light [lux] | sound [dB] |
+| ---- | ----------- | ---------- |
+
+Each file contains the data of one night, starting at sunset and ending at sunrise of the following day.
+
+### 2023 / 2024
+The data measured during New Year's Eve 2023/2024 is not very reliable or useful.
+
+#### Light
+The measured light level was always at 0 lux, with the exception of the first and last few data points, where there still was some natural sunlight. The sensor readings didn't change at all due to fireworks.
+Possible explanations for this are:
+- The sensor was located in a big garden, far away from a street to prevent the data from being affected by other light and sound sources. However, this also means that the sensor was far away from where the fireworks were launched, thus the sensor's direct exposure to the fireworks was limited.
+- Foggy weather and air pollution due to pyrotechnics reduced the light levels the sensor was exposed to.
+- In the area where the sensor was located, only a few fireworks were launched, thus the light levels were not high enough to be measured by the sensor.
+- The sensor measured the light levels only in a very short interval, thus possible peaks in the light levels were not detected.
+
+Enhancements for these problems could be:
+- Using a light collector to increase the sensor's exposure to light.
+- Setting up multiple sensors in different locations to get measurements of a larger area.
+- Setting up the sensor in more densely populated areas, where more fireworks are launched.
+- Measuring the light levels more often, or even continuously and then using the median or a quantile.
+
+#### Sound
+The sound measurements are more useful, but not very reliable either. Different from the light measurements, the sound levels show a clear, long lasting peak at midnight of New Year's Eve. However, by looking at other measurements, we can see that there are other, shorter peaks at other times too, which are not caused by fireworks but have a similar sound level. 
+Problems with the sound measurements are:
+- The sensor was not calibrated well enough to get accurate measurements, which is very hard with this kind of microphone.
+- The sensor was located in a big garden, far away from a street to prevent the data from being affected by other light and sound sources. However, this also means that the sensor was far away from where the fireworks were launched, thus the measured sound level does not represent the actual sound level of the fireworks.
+- The sensor recorded not only the sound of the fireworks, but also of wind, rain, and other sources. Especially the wind caused a lot of noise in the measurements.
+
+Enhancements for these problems could be:
+- Using a better microphone which can be calibrated more accurately.
+- Setting up multiple sensors in different locations to get measurements of a larger area, reducing the factor of only measuring fireworks from far away.
+- Using a wind shield to reduce the noise caused by wind.
 
 ## Dependencies
 The following tools and libraries are used:
